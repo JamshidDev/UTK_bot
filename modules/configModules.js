@@ -4,7 +4,7 @@ const { I18n, hears } = require("@grammyjs/i18n");
 const {
     conversations,
 } = require("@grammyjs/conversations");
-const { check_user, register_user, remove_user, set_user_lang } = require("../controllers/userController");
+const {logout_user  } = require("../service/services/ApiService");
 
 
 const config_bot = new Composer();
@@ -25,9 +25,14 @@ config_bot.use(session({
         initial: () => {
             return {
                 client: {
+                    organization_id:null,
                     phone: null,
-                    full_name: null,
+                    report_number: null,
                 },
+                salary:{
+                    year:null,
+                    month:null,
+                }
             }
         },
         storage: new MemorySessionStorage(),
@@ -44,13 +49,16 @@ config_bot.on("my_chat_member", async (ctx) => {
         for (let key of Object.keys(stats)) {
             await ctx.conversation.exit(key);
         }
-        await remove_user(ctx.from.id)
+        await logout_user({data:{
+            chat_id:ctx.from.id,
+        }})
     }
 
 });
 
 config_bot.use(async (ctx, next) => {
-    if (false) {
+    let permissions = ['🔴 Bekor qilish']
+    if (permissions.includes(ctx.message?.text)) {
         const stats = await ctx.conversation.active();
         for (let key of Object.keys(stats)) {
             await ctx.conversation.exit(key);
