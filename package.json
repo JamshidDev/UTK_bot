@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@grammyjs/chat-members": "^1.0.10",
     "@grammyjs/conversations": "^1.1.2",
     "@grammyjs/i18n": "^1.0.1",
     "@grammyjs/menu": "^1.2.1",

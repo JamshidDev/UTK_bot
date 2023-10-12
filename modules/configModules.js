@@ -5,9 +5,14 @@ const {
     conversations,
 } = require("@grammyjs/conversations");
 const {logout_user  } = require("../service/services/ApiService");
+const { chatMembers } = require("@grammyjs/chat-members");
 
 
 const config_bot = new Composer();
+
+
+
+const adapter = new MemorySessionStorage();
 
 const i18n = new I18n({
     defaultLocale: "uz",
@@ -40,6 +45,8 @@ config_bot.use(session({
     conversation: {},
     __language_code: {},
 }));
+config_bot.use(chatMembers(adapter));
+
 
 config_bot.use(conversations());
 
@@ -55,6 +62,10 @@ config_bot.on("my_chat_member", async (ctx) => {
     }
 
 });
+
+
+
+
 
 config_bot.use(async (ctx, next) => {
     let permissions = ['🔴 Bekor qilish']
