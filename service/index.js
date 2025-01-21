@@ -2,7 +2,7 @@ const axios = require("axios");
 const customLogger = require("../config/customLogger");
 
 const instance = axios.create({
-    baseURL: 'http://prices.itdevs.uz'
+    baseURL: 'http://ekpress-salary.itdevs.uz'
 });
 
 instance.interceptors.request.use(function (config) {

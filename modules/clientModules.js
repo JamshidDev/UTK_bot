@@ -1,6 +1,6 @@
 const {Composer, Keyboard} = require("grammy");
-const {Menu, MenuRange} = require("@grammyjs/menu");
-const {I18n, hears} = require("@grammyjs/i18n");
+const {Menu} = require("@grammyjs/menu");
+const {I18n} = require("@grammyjs/i18n");
 const {
     conversations,
     createConversation,
@@ -30,31 +30,31 @@ const channle_btn = new Menu("channle_btn").url(
     "https://t.me/Toshkent_MTU"
 );
 pm.use(channle_btn);
-pm.use(async (ctx, next) => {
-    let permission_list = ["member", "adminstator", "creator"];
-    let user_id = ctx.from?.id;
-    let chat_member = await ctx.chatMembers.getChatMember(channel_id, user_id);
-    if (permission_list.includes(chat_member?.status)) {
-        await next();
-    } else {
-        const stats = await ctx.conversation.active();
-        for (let key of Object.keys(stats)) {
-            await ctx.conversation.exit(key);
-        }
-        ctx.reply(
-            `
-👋 Salom <a href="tg://user?id=${ctx.from.id}">${ctx.from.first_name}</a>. Botdan foydalanish uchun <b>"Toshkent MTU" UK </b> rasmiy kanaliga a'zo bo'lishingiz shart!
-
-<i>A'zo bo'lish uchun <b>➕ A'zo bo'lish</b> tugmasini bosing</i>        
-<i>A'zo bo'lganingizdan so'ng qayta /start buyrug'ini botga yuboring</i>        
-        `,
-            {
-                parse_mode: "HTML",
-                reply_markup: channle_btn,
-            }
-        );
-    }
-});
+// pm.use(async (ctx, next) => {
+//     let permission_list = ["member", "adminstator", "creator"];
+//     let user_id = ctx.from?.id;
+//     let chat_member = await ctx.chatMembers.getChatMember(channel_id, user_id);
+//     if (permission_list.includes(chat_member?.status)) {
+//         await next();
+//     } else {
+//         const stats = await ctx.conversation.active();
+//         for (let key of Object.keys(stats)) {
+//             await ctx.conversation.exit(key);
+//         }
+//         ctx.reply(
+//             `
+// 👋 Salom <a href="tg://user?id=${ctx.from.id}">${ctx.from.first_name}</a>. Botdan foydalanish uchun <b>"Toshkent MTU" UK </b> rasmiy kanaliga a'zo bo'lishingiz shart!
+//
+// <i>A'zo bo'lish uchun <b>➕ A'zo bo'lish</b> tugmasini bosing</i>
+// <i>A'zo bo'lganingizdan so'ng qayta /start buyrug'ini botga yuboring</i>
+//         `,
+//             {
+//                 parse_mode: "HTML",
+//                 reply_markup: channle_btn,
+//             }
+//         );
+//     }
+// });
 
 pm.use(conversations());
 
@@ -325,7 +325,7 @@ pm.command("start", async (ctx) => {
     let [error, res] = await chek_register_user({
         data: {chat_id: ctx.from.id},
     });
-    if (res.status) {
+    if (res?.status) {
         await ctx.conversation.enter("main_menu_conversation");
     } else {
         await ctx.reply(
@@ -404,3 +404,4 @@ pm.hears("🔄 Qayta ro'yhatdan o'tish", async (ctx) => {
 });
 
 module.exports = {client_bot};
+
